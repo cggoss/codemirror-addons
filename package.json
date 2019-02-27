@@ -1,0 +1,22 @@
+{
+  "name": "@cggoss/codemirror-addons",
+  "version": "1.0.0",
+  "description": "CodeMirror addons",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cggoss/codemirror-addons.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cggoss/codemirror-addons/issues"
+  },
+  "homepage": "https://github.com/cggoss/codemirror-addons",
+  "dependencies": {
+    "diff-match-patch": "^1.0.4"
+  }
+}
