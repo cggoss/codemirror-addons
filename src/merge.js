@@ -33,12 +33,13 @@ DiffView.prototype = {
     this.orig = CodeMirror(pane, copyObj({value: orig, readOnly: !this.mv.options.allowEditingOriginals}, copyObj(options)));
     this.orig.state.diffViews = [this];
 
-    this.diff = getDiff(asString(orig), asString(options.value));
+    this.diff = getDiff(asString(orig), asString(options.value), options.diffTimeout);
     this.chunks = getChunks(this.diff);
     this.diffOutOfDate = this.dealigned = false;
 
     this.showDifferences = options.showDifferences !== false;
     this.forceUpdate = registerUpdate(this);
+    this.diffTimeout = options.diffTimeout;
     setScrollLock(this, true, false);
     registerScroll(this);
     },
@@ -53,7 +54,7 @@ DiffView.prototype = {
 
 function ensureDiff(dv) {
     if (dv.diffOutOfDate) {
-    dv.diff = getDiff(dv.orig.getValue(), dv.edit.getValue());
+    dv.diff = getDiff(dv.orig.getValue(), dv.edit.getValue(), dv.diffTimeout);
     dv.chunks = getChunks(dv.diff);
     dv.diffOutOfDate = false;
     CodeMirror.signal(dv.edit, "updateDiff", dv.diff);
@@ -538,7 +539,10 @@ function asString(obj) {
 // Operations on diffs
 
 var dmp = new DiffMatchPatch();
-function getDiff(a, b) {
+function getDiff(a, b, diffTimeout) {
+    if (diffTimeout) {
+        dmp.Diff_Timeout = diffTimeout;
+    }
     var diff = dmp.diff_main(a, b);
     dmp.diff_cleanupSemantic(diff);
     // The library sometimes leaves in empty parts, which confuse the algorithm

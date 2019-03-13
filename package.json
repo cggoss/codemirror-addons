@@ -1,6 +1,6 @@
 {
   "name": "@cggoss/codemirror-addons",
-  "version": "1.0.0",
+  "version": "1.0.0-snapshot.2",
   "description": "CodeMirror addons",
   "main": "src/index.js",
   "scripts": {
